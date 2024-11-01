@@ -1,12 +1,10 @@
 package com.example.tictactoenew;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-
 import java.util.Random;
 
 public class HelloController {
@@ -18,13 +16,13 @@ public class HelloController {
     private Label resultLabel;
     @FXML
     private Label scoreLabel;
-
     private Model model;
     private Button[][] buttons;
 
     public void initialize() {
         model = new Model();
         buttons = new Button[3][3];
+
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 Button button = new Button();
