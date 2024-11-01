@@ -1,6 +1,8 @@
 package com.example.tictactoenew;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ModelTest {
@@ -13,9 +15,8 @@ class ModelTest {
     }
 
 
-
     @Test
-    void testToCheckForAValidMove(){
+    void testToCheckForAValidMove() {
         assertTrue(model.makeMove(0, 0, 'X'), "Första draget på en tom ruta borde vara giltigt");
         assertFalse(model.makeMove(0, 0, 'O'), "Drag på en redan fylld ruta borde vara ogiltigt och returnera false");
         assertTrue(model.makeMove(1, 1, 'O'), "Drag på en tom ruta borde vara giltigt och returnera true");
@@ -24,26 +25,63 @@ class ModelTest {
     }
 
     @Test
-    void testToSeeIfTheRoundIsFinishedOrNot(){
-        model.makeMove(0, 0, 'X');
-        model.makeMove(1, 1, 'O');
-        assertEquals('-', model.checkWinner(), "Rundan borde inte vara klar ännu");
-
-        // 2. Kontrollera att spelare X vinner horisontellt
-        model.resetBoard();
+    void testToSeeIfTheRoundIsFinishedOrNot() {
         model.makeMove(0, 0, 'X');
         model.makeMove(0, 1, 'X');
         model.makeMove(0, 2, 'X');
-        assertEquals('X', model.checkWinner(), "Spelare X borde ha vunnit rundan horisontellt");
+        assertEquals('X', model.checkWinner(), "Spelare X borde ha vunnit horisontellt på första raden");
 
-        // 3. Kontrollera att spelare O vinner vertikalt
+        model.resetBoard();
+        model.makeMove(1, 0, 'O');
+        model.makeMove(1, 1, 'O');
+        model.makeMove(1, 2, 'O');
+        assertEquals('O', model.checkWinner(), "Spelare O borde ha vunnit horisontellt på andra raden");
+
+        model.resetBoard();
+        model.makeMove(2, 0, 'X');
+        model.makeMove(2, 1, 'X');
+        model.makeMove(2, 2, 'X');
+        assertEquals('X', model.checkWinner(), "Spelare X borde ha vunnit horisontellt på tredje raden");
+
+        // Testa vertikala vinster
         model.resetBoard();
         model.makeMove(0, 0, 'O');
         model.makeMove(1, 0, 'O');
         model.makeMove(2, 0, 'O');
-        assertEquals('O', model.checkWinner(), "Spelare O borde ha vunnit rundan vertikalt");
+        assertEquals('O', model.checkWinner(), "Spelare O borde ha vunnit vertikalt i första kolumnen");
 
-        // 4. Kontrollera att spelet är oavgjort
+        model.resetBoard();
+        model.makeMove(0, 1, 'X');
+        model.makeMove(1, 1, 'X');
+        model.makeMove(2, 1, 'X');
+        assertEquals('X', model.checkWinner(), "Spelare X borde ha vunnit vertikalt i andra kolumnen");
+
+        model.resetBoard();
+        model.makeMove(0, 2, 'O');
+        model.makeMove(1, 2, 'O');
+        model.makeMove(2, 2, 'O');
+        assertEquals('O', model.checkWinner(), "Spelare O borde ha vunnit vertikalt i tredje kolumnen");
+
+        // Testa diagonala vinster
+        model.resetBoard();
+        model.makeMove(0, 0, 'X');
+        model.makeMove(1, 1, 'X');
+        model.makeMove(2, 2, 'X');
+        assertEquals('X', model.checkWinner(), "Spelare X borde ha vunnit diagonalt från övre vänstra till nedre högra");
+
+        model.resetBoard();
+        model.makeMove(0, 2, 'O');
+        model.makeMove(1, 1, 'O');
+        model.makeMove(2, 0, 'O');
+        assertEquals('O', model.checkWinner(), "Spelare O borde ha vunnit diagonalt från övre högra till nedre vänstra");
+
+        // Testa ingen vinnare än
+        model.resetBoard();
+        model.makeMove(0, 0, 'X');
+        model.makeMove(1, 1, 'O');
+        assertEquals('-', model.checkWinner(), "Spelet borde pågå utan vinnare än");
+
+        // Testa oavgjort
         model.resetBoard();
         model.makeMove(0, 0, 'X');
         model.makeMove(0, 1, 'O');
@@ -54,7 +92,7 @@ class ModelTest {
         model.makeMove(2, 0, 'O');
         model.makeMove(2, 1, 'X');
         model.makeMove(2, 2, 'O');
-        assertEquals('D', model.checkWinner(), "Rundan borde vara oavgjord");
+        assertEquals('D', model.checkWinner(), "Spelet borde vara oavgjort");
     }
 
-    }
+}
