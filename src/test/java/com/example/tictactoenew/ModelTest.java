@@ -16,9 +16,10 @@ class ModelTest {
 
     @Test
     void testToCheckForAValidMove(){
-        boolean result = model.makeMove(0, 0, 'X');
-        assertTrue(result, "Draget borde vara giltigt och returnera true");
-        assertEquals('X', model.getBoard()[0][0], "Rutan borde innehålla 'X'");
+        assertTrue(model.makeMove(0, 0, 'X'), "Första draget på en tom ruta borde vara giltigt");
+        assertFalse(model.makeMove(0, 0, 'O'), "Drag på en redan fylld ruta borde vara ogiltigt och returnera false");
+        assertTrue(model.makeMove(1, 1, 'O'), "Drag på en tom ruta borde vara giltigt och returnera true");
+        assertFalse(model.makeMove(1, 1, 'X'), "Drag på en redan fylld ruta borde vara ogiltigt och returnera false");
 
     }
 
